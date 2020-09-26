@@ -1,3 +1,48 @@
+body {
+    background-color: #D3e3fc;
+    /* color: #f2f2f2; */
+}
+
+#timer {
+    margin-right: 20px;
+}
+
+#highscoreslink {
+    margin-left: 20px;
+}
+
+.container {
+    margin: 15px auto;
+}
+
+button {
+    background-color: #00887A;
+    color: #d3e3fc;
+    margin: 5px;
+    padding: 8px 15px;
+    border-radius: 12px;
+}
+
+a {
+    color: #00887a;
+}
+
+li {
+    list-style-type: none;
+}
+
 .centered {
     text-align: center;
+}
+
+table {
+    width: 250px;
+    margin: 0 auto;
+    background-color: #77A6F7;
+    text-align: left;
+}
+
+td {
+    border-bottom: 1px solid #D3e3fc;
+    padding: 5px 10px;
 }
