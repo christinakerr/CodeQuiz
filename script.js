@@ -94,7 +94,7 @@ function changeQuestions () {
     gameOver();
 }
 
-function gameOver () {
+function gameOver () { // When they go through all the questions or the timer runs out
     headerDiv.innerHTML = ""; // Clear the question
     bodyDiv.innerHTML = "";
     footerDiv.innerHTML = "<hr />";
@@ -125,6 +125,28 @@ function gameOver () {
     submitForm.appendChild(submit);
 
     bodyDiv.appendChild(submitForm); // Add to page
+
+    submit.addEventListener("click", highScores);
+}
+
+function highScores() {
+    headerDiv.innerHTML = ""; // Clear previous screen
+    bodyDiv.innerHTML = "";
+    footerDiv.innerHTML = "<hr />";
+
+    var highScoreHead = document.createElement("h2"); // Creates "High Scores" heading
+    highScoreHead.textContent = "High Scores";
+    headerDiv.appendChild(highScoreHead);
+
+    var highScoreTable = document.createElement("table"); // Create the table
+    highScoreTable.id = scoretable;
+
+    var row1 = document.createElement("tr"); // Create row
+    var cell1 = document.createElement("td"); //Create cell
+
+    cell1.textContent = textField.value + secondsLeft; // Display the user's score
+
+
 }
 
 
