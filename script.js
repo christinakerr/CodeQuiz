@@ -56,7 +56,9 @@ function startTimer () {
 
         if(secondsLeft === 0) {
             clearInterval(timeInterval);
+            gameOver();
         }
+        // also clear interval if they reach game over!!
     }, 1000);
 }
 
@@ -78,7 +80,7 @@ function changeQuestions () {
             console.log(answerIndex[answerChoice]);
             var answerLi = document.createElement("li");
 
-            var answerButton = document.createElement("button");
+            var answerButton = document.createElement("button"); // Only works in firefox, not in chrome
             answerButton.textContent = answerIndex[answerChoice];
             
             answerLi.appendChild(answerButton);
@@ -88,8 +90,41 @@ function changeQuestions () {
         bodyDiv.appendChild(answerList);
 
         alert("If you're seeing this, you did the thing.")
-
     }
+    gameOver();
+}
+
+function gameOver () {
+    headerDiv.innerHTML = ""; // Clear the question
+    bodyDiv.innerHTML = "";
+    footerDiv.innerHTML = "<hr />";
+
+    var allDone = document.createElement("h2");
+    allDone.textContent = "All Done!"
+    headerDiv.appendChild(allDone);
+
+    var yourFinalScore = document.createElement("p");
+    yourFinalScore.textContent = "Your final score is " + secondsLeft;
+    bodyDiv.appendChild(yourFinalScore);
+
+    var submitForm = document.createElement("form"); // Create form
+
+    var formLabel = document.createElement("label"); // Create Label
+    formLabel.setAttribute("for", "initials");
+    formLabel.textContent = "Enter initials: ";
+
+    var textField = document.createElement("input"); // Create input text box
+    textField.setAttribute("type", "text");
+    textField.setAttribute("id", "initials");
+
+    var submit = document.createElement("button");
+    submit.textContent = "Submit";
+
+    submitForm.appendChild(formLabel); // Add to form
+    submitForm.appendChild(textField);
+    submitForm.appendChild(submit);
+
+    bodyDiv.appendChild(submitForm); // Add to page
 }
 
 
