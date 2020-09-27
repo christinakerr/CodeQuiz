@@ -13,38 +13,38 @@ var secondsLeft = 60;
 var questions = [
      //Question 1
         "Commonly used data types DO NOT include:", //0
-    {   answer1: "1. strings", //1
-        answer2: "2. booleans",
-        correctanswer: "3. alerts",
-        answer4: "4. numbers"
+    {   answer1: "strings", //1
+        answer2: "booleans",
+        correctanswer: "alerts",
+        answer4: "numbers"
     },
      // Question 2
         "The condition in an if / else statement is enclosed within ____.", //2
-    {   answer1: "1. quotes", //3
-        answer2: "2. curly brackets",
-        correctanswer: "3. parentheses",
-        answer4: "4. square brackets"
+    {   answer1: "quotes", //3
+        answer2: "curly brackets",
+        correctanswer: "parentheses",
+        answer4: "square brackets"
     },
      //Question 3
         "Arrays in JavaScript can be used to store ____.", //4
-    {   answer1: "1. numbers and strings", //5
-        answer2: "2. other arrays",
-        answer3: "3. booleans",
-        correctanswer: "4. all of the above"
+    {   answer1: "numbers and strings", //5
+        answer2: "other arrays",
+        answer3: "booleans",
+        correctanswer: "all of the above"
     },
      // Question 4
         "String values must be enclosed within ____ when being assigned to variables.", //6
-    {   answer1: "1. commas", //7
-        answer2: "2. curly brackets",
-        correctanswer: "3. quotes",
-        answer4: "4. parentheses"
+    {   answer1: "commas", //7
+        answer2: "curly brackets",
+        correctanswer: "quotes",
+        answer4: "parentheses"
     },
      // Question 5
         "A very useful tool used during development and debugging for printing content to the debugger is:", //8
-    {   answer1: "1. JavaScript", //9
-        answer2: "2. terminal / bash",
-        answer3: "3. for loops",
-        correctanswer: "4. console.log"
+    {   answer1: "JavaScript", //9
+        answer2: "terminal / bash",
+        answer3: "for loops",
+        correctanswer: "console.log"
     }
 ]
 
@@ -65,7 +65,7 @@ function changeQuestions () {
     for (var i = 0; i < questions.length; i+=2) {
         headerDiv.innerHTML = ""; // Clear the start page or old question
         bodyDiv.innerHTML = "";
-        footerDiv.innerHTML = "";
+        footerDiv.innerHTML = "<hr />";
 
         var questionDisplay = document.createElement("h2"); // Display question
         questionDisplay.textContent = questions[i];
@@ -75,13 +75,15 @@ function changeQuestions () {
         var answerIndex = questions[i+1];
 
         for (var answerChoice in answerIndex) {
+            console.log(answerIndex[answerChoice]);
             var answerLi = document.createElement("li");
+
             var answerButton = document.createElement("button");
-            answerButton.textContent = answerChoice;
-             // console.log(answerIndex.answerChoice);  HOW TO ACCESS EACH ANSWER WITHIN THE OBJECT WITHIN THE ARRAY
+            answerButton.textContent = answerIndex[answerChoice];
+            
             answerLi.appendChild(answerButton);
             answerList.appendChild(answerLi);
-        }
+        };
 
         bodyDiv.appendChild(answerList);
 
