@@ -1,111 +1,114 @@
 // initialize DOM variables
 var startButton = document.getElementById("start");
 var timerEl = document.getElementById("timer");
-var headerDiv = document.getElementById("col-head");
-var bodyDiv = document.getElementById("col-body");
-var footerDiv = document.getElementById("col-foot");
+var startDiv = document.getElementById("start-screen");
+var questionsDiv = document.getElementById("questions");
+var endDiv = document.getElementById("endscreen");
+var answersDiv = document.getElementById("choices");
 
 // Count starts at 60 seconds
 var secondsLeft = 60;
 
+var questionIndex = 0;
 
 var highScoreList = [];
 
 // Questions and answers stored in objects nested in an array
 
 var questions = [
-     //Question 1
-        "Commonly used data types DO NOT include:", //0
-    {   answer1: "strings", //1
-        answer2: "booleans",
-        correctanswer: "alerts",
-        answer4: "numbers"
+    //Question 1
+    {
+        question: "Commonly used data types DO NOT include:", //0
+        answers: ["strings", "booleans", "numbers", "alerts"],
+        correctAnswer: "alerts",
     },
-     // Question 2
-        "The condition in an if / else statement is enclosed within ____.", //2
-    {   answer1: "quotes", //3
-        answer2: "curly brackets",
-        correctanswer: "parentheses",
-        answer4: "square brackets"
+    // Question 2
+    {
+        question:"The condition in an if / else statement is enclosed within ____.", //1
+        answers: ["quotes", "curly brackets", "parentheses", "square brackets"],
+        correctAnswer: "parentheses",
+
     },
-     //Question 3
-        "Arrays in JavaScript can be used to store ____.", //4
-    {   answer1: "numbers and strings", //5
-        answer2: "other arrays",
-        answer3: "booleans",
-        correctanswer: "all of the above"
+    //Question 3
+    {
+        question: "Arrays in JavaScript can be used to store ____.", //2
+        answers: ["numbers and strings", "other arrays", "booleans", "all of the above"],
+        correctAnswer: "all of the above"
     },
-     // Question 4
-        "String values must be enclosed within ____ when being assigned to variables.", //6
-    {   answer1: "commas", //7
-        answer2: "curly brackets",
-        correctanswer: "quotes",
-        answer4: "parentheses"
+    // Question 4
+    {
+        question: "String values must be enclosed within ____ when being assigned to variables.", //3
+        answers: ["commas", "curly brackets", "quotes", "parentheses"],
+        correctAnswer: "quotes",
     },
-     // Question 5
-        "A very useful tool used during development and debugging for printing content to the debugger is:", //8
-    {   answer1: "JavaScript", //9
-        answer2: "terminal / bash",
-        answer3: "for loops",
+    // Question 5
+    {
+        question: "A very useful tool used during development and debugging for printing content to the debugger is:", //4
+        answers: ["JavaScript", "terminal / bash", "for loops", "console.log"],
         correctanswer: "console.log"
     }
 ]
 
+function startGame() {
+    startDiv.setAttribute("class", "hide");
+    questionsDiv.removeAttribute("class");
+    startTimer();
+    changeQuestions();
+
+}
 // Start the timer when start button is clicked
-function startTimer () {
-    var timeInterval = setInterval(function() {
+function startTimer() {
+    var timeInterval = setInterval(function () {
         secondsLeft--;
         timerEl.textContent = "Time: " + secondsLeft;
 
-        if(secondsLeft === 0) {
-            clearInterval(timeInterval);
+        if (secondsLeft <= 0) {
+            
             gameOver();
         }
-        // also clear interval if they reach game over!!
     }, 1000);
-}
+};
 
 // Displaying a new question
-function changeQuestions () {
-    for (var i = 0; i < questions.length; i+=2) {
-        headerDiv.innerHTML = ""; // Clear the start page or old question
-        bodyDiv.innerHTML = "";
-        footerDiv.innerHTML = "<hr />";
+function changeQuestions() {
+    var currentQuestion = questions[questionIndex];
+    var questionDisplay = document.getElementById("questions-title"); // Display question
+    questionDisplay.textContent = currentQuestion.question;
 
-        var questionDisplay = document.createElement("h2"); // Display question
-        questionDisplay.textContent = questions[i];
-        headerDiv.appendChild(questionDisplay);
+    answersDiv.innerHTML = "";
 
-        var answerList = document.createElement("ul");
-        var answer = i + 1; // NOt working!!
-        var answerIndex = questions[answer];
-
-        for (var answerChoice in answerIndex) {
-            console.log(answerIndex[answerChoice]);
-            var answerLi = document.createElement("li");
-
-            var answerButton = document.createElement("button"); // Only works in firefox, not in chrome
-            answerButton.textContent = answerIndex[answerChoice];
-            
-            answerLi.appendChild(answerButton);
-            answerList.appendChild(answerLi);
-        };
-
-        bodyDiv.appendChild(answerList);
-
-        alert("If you're seeing this, you did the thing.")
-    }
-    gameOver();
+    currentQuestion.answers.forEach(function(answer) {
+        var answerButton = document.createElement("button");
+        answerButton.setAttribute("class", "choice");
+        answerButton.setAttribute("value", answer);
+        answerButton.textContent = answer;
+        answerButton.onclick = questionCheck;
+        answersDiv.appendChild(answerButton);
+    })
 }
 
-function gameOver () { // When they go through all the questions or the timer runs out
-    headerDiv.innerHTML = ""; // Clear the question
-    bodyDiv.innerHTML = "";
-    footerDiv.innerHTML = "<hr />";
+function questionCheck() {
+    // Check if the choice doesn't match the correct answer
+    console.log(this.value);
 
-    var allDone = document.createElement("h2");
-    allDone.textContent = "All Done!"
-    headerDiv.appendChild(allDone);
+    if (this.value !== questions[questionIndex].correctAnswer) {
+        secondsLeft -= 10;
+    }
+    questionIndex++;
+    if (questionIndex == questions.length) {
+        gameOver();
+    } else {
+        changeQuestions();
+    }
+}
+
+function gameOver() { // When they go through all the questions or the timer runs out
+    
+    var finalScore = secondsLeft;
+    
+    questionsDiv.setAttribute("class", "hide");
+    endDiv.removeAttribute("class");
+    timerEl.setAttribute("class", "hide");
 
     var yourFinalScore = document.createElement("p");
     yourFinalScore.textContent = "Your final score is " + secondsLeft;
@@ -131,7 +134,7 @@ function gameOver () { // When they go through all the questions or the timer ru
 
     bodyDiv.appendChild(submitForm); // Add to page
 
-    submit.addEventListener("click", function() {
+    submit.addEventListener("click", function () {
 
         headerDiv.innerHTML = ""; // Clear previous screen
         bodyDiv.innerHTML = "";
@@ -148,7 +151,7 @@ function gameOver () { // When they go through all the questions or the timer ru
 
         if (storedHighScores !== null) { // When there's scores already saved
 
-        
+
             var userScore = [textField.value, secondsLeft];
             var allHighScores = storedHighScores + userScore;
             console.log(userScore);
@@ -163,10 +166,10 @@ function gameOver () { // When they go through all the questions or the timer ru
                 row.appendChild(cell);
                 highScoreTable.appendChild(row);
             }
-            
+
             localStorage.setItem("highScoreList", JSON.stringify(allHighScores)); // Save all high scores for later
 
-            
+
         } else { // When there are no scores saved yet
             var userScore = [textField.value, secondsLeft];
             var row = document.createElement("tr"); // Create row
@@ -184,7 +187,7 @@ function gameOver () { // When they go through all the questions or the timer ru
         var clearHighScores = document.createElement("button");
         clearHighScores.textContent = "Clear High Scores";
 
-        clearHighScores.addEventListener("click", function() {
+        clearHighScores.addEventListener("click", function () {
             window.localStorage.clear();
         });
     });
@@ -192,7 +195,4 @@ function gameOver () { // When they go through all the questions or the timer ru
 
 
 // Event listener for start button
-startButton.addEventListener("click",() => {
-    startTimer();
-    changeQuestions();
-});
+startButton.addEventListener("click", startGame);

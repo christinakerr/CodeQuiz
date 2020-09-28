@@ -47,3 +47,7 @@ td {
     border-bottom: 1px solid #D3e3fc;
     padding: 5px 10px;
 }
+
+.hide {
+    display: none;
+}
