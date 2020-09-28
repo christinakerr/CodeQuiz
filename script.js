@@ -5,9 +5,12 @@ var startDiv = document.getElementById("start-screen");
 var questionsDiv = document.getElementById("questions");
 var endDiv = document.getElementById("endscreen");
 var answersDiv = document.getElementById("choices");
+var scoreSpan = document.getElementById("finalScore");
+var submitButton = document.getElementById("submit");
+var highScoreTable = document.getElementById("scoretable");
 
-// Count starts at 60 seconds
-var secondsLeft = 60;
+// Count starts at 75 seconds
+var secondsLeft = 75;
 
 var questionIndex = 0;
 
@@ -63,7 +66,7 @@ function startTimer() {
         timerEl.textContent = "Time: " + secondsLeft;
 
         if (secondsLeft <= 0) {
-            
+            clearInterval(timeInterval);
             gameOver();
         }
     }, 1000);
@@ -96,6 +99,7 @@ function questionCheck() {
     }
     questionIndex++;
     if (questionIndex == questions.length) {
+        //console.log(questionIndex, this.value, questions[questionIndex].correctAnswer);
         gameOver();
     } else {
         changeQuestions();
@@ -110,42 +114,9 @@ function gameOver() { // When they go through all the questions or the timer run
     endDiv.removeAttribute("class");
     timerEl.setAttribute("class", "hide");
 
-    var yourFinalScore = document.createElement("p");
-    yourFinalScore.textContent = "Your final score is " + secondsLeft;
-    bodyDiv.appendChild(yourFinalScore);
+    scoreSpan.textContent = finalScore;
 
-    var submitForm = document.createElement("form"); // Create form
-
-    var formLabel = document.createElement("label"); // Create Label
-    formLabel.setAttribute("for", "initials");
-    formLabel.textContent = "Enter initials: ";
-
-    var textField = document.createElement("input"); // Create input text box
-    textField.setAttribute("type", "text");
-    textField.setAttribute("id", "initials");
-
-    var submit = document.createElement("button");
-    submit.textContent = "Submit";
-    submit.setAttribute("type", "submit");
-
-    submitForm.appendChild(formLabel); // Add to form
-    submitForm.appendChild(textField);
-    submitForm.appendChild(submit);
-
-    bodyDiv.appendChild(submitForm); // Add to page
-
-    submit.addEventListener("click", function () {
-
-        headerDiv.innerHTML = ""; // Clear previous screen
-        bodyDiv.innerHTML = "";
-        footerDiv.innerHTML = "<hr />";
-
-        var highScoreHead = document.createElement("h2"); // Creates "High Scores" heading
-        highScoreHead.textContent = "High Scores";
-        headerDiv.appendChild(highScoreHead);
-
-        var highScoreTable = document.createElement("table"); // Create the table
-        highScoreTable.setAttribute("id", "scoretable");
+    submitButton.addEventListener("click", function () {
 
         var storedHighScores = JSON.parse(localStorage.getItem("highScoreList")); // Retrieve old high scores
 

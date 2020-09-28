@@ -15,7 +15,7 @@
 <body>
 
     <p class="float-left" id="highscoreslink"><a href="#">View High Scores</a></p>
-    <p class="float-right" id="timer">Time: 60</p>
+    <p class="float-right" id="timer">Time: 75</p>
     <div class="container">
 
         <!-- Start Screen  -->
@@ -23,6 +23,7 @@
             <h1>Welcome to the Code Quiz</h1>
             <p id="explainer">Try to answer the following code-related questions within the time limit. Keep in mind
                 that incorrect answers will penalize your score/time by ten seconds!</p>
+            <hr />
             <button id="start">Start</button>
         </div>
 
@@ -32,7 +33,7 @@
 
             <h2 id="questions-title"></h2>
             <div id="choices" class="choices">
-
+                <hr />
             </div>
         </div>
 
@@ -41,13 +42,24 @@
 
             <h2 id="allDone">All Done!</h2>
 
-            
+            <p>Your final score is: <span id="finalScore"></span></p>
+            <form>
+                <label for="initials">Initials</label>
+                <input type="text" id="initials">
+                <input type="submit" value="Submit" class="submit">
+            </form> 
+            <hr />
+
 
             <!-- <button>Go Back</button>
                 <button>Clear High Scores</button> -->
-            <hr />
-            <!-- <p>Wrong!</p> -->
+            
 
+        </div>
+        <div class="hide" id="highScores">
+            <h2 id="scoretable">High Scores</h2>
+            <table>
+            </table>
         </div>
     </div>
 
