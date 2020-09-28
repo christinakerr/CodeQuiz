@@ -145,23 +145,39 @@ function gameOver () { // When they go through all the questions or the timer ru
         highScoreTable.setAttribute("id", "scoretable");
 
         var storedHighScores = JSON.parse(localStorage.getItem("highScoreList")); // Retrieve old high scores
-        var userScore = [textField.value, secondsLeft]; /// Not working!!
-        var allHighScores = storedHighScores + userScore;
-        console.log(userScore);
-        console.log(allHighScores);
 
-        // Sort them???
+        if (storedHighScores !== null) { // When there's scores already saved
 
-        for (var i = 0; i < allHighScores.length; i++) {
+        
+            var userScore = [textField.value, secondsLeft];
+            var allHighScores = storedHighScores + userScore;
+            console.log(userScore);
+            console.log(allHighScores);
+
+            // Sort them???
+
+            for (var i = 0; i < allHighScores.length; i++) {
+                var row = document.createElement("tr"); // Create row
+                var cell = document.createElement("td"); //Create cell
+                cell.textContent = (i + 1) + ". " + allHighScores[i][0] + allHighScores[i][1]; // Display each initial and score
+                row.appendChild(cell);
+                highScoreTable.appendChild(row);
+            }
+            
+            localStorage.setItem("highScoreList", JSON.stringify(allHighScores)); // Save all high scores for later
+
+            
+        } else { // When there are no scores saved yet
+            var userScore = [textField.value, secondsLeft];
             var row = document.createElement("tr"); // Create row
             var cell = document.createElement("td"); //Create cell
-            cell.textContent = (i + 1) + ". " + allHighScores[i][0] + allHighScores[i][1]; // Display each initial and score
+            cell.textContent = userScore; // Display each initial and score
             row.appendChild(cell);
             highScoreTable.appendChild(row);
+
+            localStorage.setItem("highScoreList", JSON.stringify(allHighScores)); // Save user high score for later
+
         }
-        
-        localStorage.setItem("highScoreList", JSON.stringify(allHighScores)); // Save all high scores for later
-        
         var goBack = document.createElement("button"); // Go back button
         goBack.textContent = "Go Back";
 
