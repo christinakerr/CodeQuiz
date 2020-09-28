@@ -8,6 +8,9 @@ var footerDiv = document.getElementById("col-foot");
 // Count starts at 60 seconds
 var secondsLeft = 60;
 
+
+var highScoreList = [];
+
 // Questions and answers stored in objects nested in an array
 
 var questions = [
@@ -74,7 +77,8 @@ function changeQuestions () {
         headerDiv.appendChild(questionDisplay);
 
         var answerList = document.createElement("ul");
-        var answerIndex = questions[i+1];
+        var answer = i + 1; // NOt working!!
+        var answerIndex = questions[answer];
 
         for (var answerChoice in answerIndex) {
             console.log(answerIndex[answerChoice]);
@@ -119,6 +123,7 @@ function gameOver () { // When they go through all the questions or the timer ru
 
     var submit = document.createElement("button");
     submit.textContent = "Submit";
+    submit.setAttribute("type", "submit");
 
     submitForm.appendChild(formLabel); // Add to form
     submitForm.appendChild(textField);
@@ -126,27 +131,47 @@ function gameOver () { // When they go through all the questions or the timer ru
 
     bodyDiv.appendChild(submitForm); // Add to page
 
-    submit.addEventListener("click", highScores);
-}
+    submit.addEventListener("click", function() {
 
-function highScores() {
-    headerDiv.innerHTML = ""; // Clear previous screen
-    bodyDiv.innerHTML = "";
-    footerDiv.innerHTML = "<hr />";
+        headerDiv.innerHTML = ""; // Clear previous screen
+        bodyDiv.innerHTML = "";
+        footerDiv.innerHTML = "<hr />";
 
-    var highScoreHead = document.createElement("h2"); // Creates "High Scores" heading
-    highScoreHead.textContent = "High Scores";
-    headerDiv.appendChild(highScoreHead);
+        var highScoreHead = document.createElement("h2"); // Creates "High Scores" heading
+        highScoreHead.textContent = "High Scores";
+        headerDiv.appendChild(highScoreHead);
 
-    var highScoreTable = document.createElement("table"); // Create the table
-    highScoreTable.id = scoretable;
+        var highScoreTable = document.createElement("table"); // Create the table
+        highScoreTable.setAttribute("id", "scoretable");
 
-    var row1 = document.createElement("tr"); // Create row
-    var cell1 = document.createElement("td"); //Create cell
+        var storedHighScores = JSON.parse(localStorage.getItem("highScoreList")); // Retrieve old high scores
+        var userScore = [textField.value, secondsLeft]; /// Not working!!
+        var allHighScores = storedHighScores + userScore;
+        console.log(userScore);
+        console.log(allHighScores);
 
-    cell1.textContent = textField.value + secondsLeft; // Display the user's score
+        // Sort them???
 
+        for (var i = 0; i < allHighScores.length; i++) {
+            var row = document.createElement("tr"); // Create row
+            var cell = document.createElement("td"); //Create cell
+            cell.textContent = (i + 1) + ". " + allHighScores[i][0] + allHighScores[i][1]; // Display each initial and score
+            row.appendChild(cell);
+            highScoreTable.appendChild(row);
+        }
+        
+        localStorage.setItem("highScoreList", JSON.stringify(allHighScores)); // Save all high scores for later
+        
+        var goBack = document.createElement("button"); // Go back button
+        goBack.textContent = "Go Back";
 
+        var clearHighScores = document.createElement("button");
+        clearHighScores.textContent = "Clear High Scores";
+
+        clearHighScores.addEventListener("click", function() {
+            window.localStorage.clear();
+        });
+    });
 }
 
 
