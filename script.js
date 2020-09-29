@@ -8,6 +8,9 @@ var answersDiv = document.getElementById("choices");
 var scoreSpan = document.getElementById("finalScore");
 var submitButton = document.getElementById("submit");
 var highScoreTable = document.getElementById("scoretable");
+// var initialsInput = document.getElementById("initials");
+var highScoresDiv = document.getElementById("highScores");
+var clearHighScores = document.getElementById("clear-high-scores");
 
 // Count starts at 75 seconds
 var secondsLeft = 75;
@@ -65,7 +68,7 @@ function startTimer() {
         secondsLeft--;
         timerEl.textContent = "Time: " + secondsLeft;
 
-        if (secondsLeft <= 0) {
+        if (secondsLeft <= 0 && questionIndex !== questions.length) {
             clearInterval(timeInterval);
             gameOver();
         }
@@ -119,54 +122,67 @@ function gameOver() { // When they go through all the questions or the timer run
 
     scoreSpan.textContent = finalScore;
 
-    submitButton.addEventListener("click", function () {
+    submitButton.addEventListener("click", function(){
+
+        userInitials = document.querySelector("#initials").value;
+        console.log(userInitials);
+
+
+        var userScore = [{
+            initials: userInitials,
+            score: finalScore
+        }];
+
+        endDiv.setAttribute("class", "hide");
+        highScoresDiv.removeAttribute("class");
 
         var storedHighScores = JSON.parse(localStorage.getItem("highScoreList")); // Retrieve old high scores
+        console.log(storedHighScores);
+        // if (storedHighScores !== null) { // When there's scores already saved
 
-        if (storedHighScores !== null) { // When there's scores already saved
+        //     var allHighScores = storedHighScores.push(userScore);
+        //     console.log(userScore);
+        //     console.log(allHighScores);
 
+        //     allHighScores.sort(compare);
 
-            var userScore = [textField.value, secondsLeft];
-            var allHighScores = storedHighScores + userScore;
-            console.log(userScore);
-            console.log(allHighScores);
+        //     for (var i = 0; i < allHighScores.length; i++) {
+        //         var row = document.createElement("tr"); // Create row
+        //         var cell = document.createElement("td"); //Create cell
+        //         cell.textContent = (i + 1) + ". " + allHighScores[i].initials + allHighScores[i].score; // Display each initial and score
+        //         row.appendChild(cell);
+        //         highScoreTable.appendChild(row);
+        //     }
 
-            // Sort them???
-
-            for (var i = 0; i < allHighScores.length; i++) {
-                var row = document.createElement("tr"); // Create row
-                var cell = document.createElement("td"); //Create cell
-                cell.textContent = (i + 1) + ". " + allHighScores[i][0] + allHighScores[i][1]; // Display each initial and score
-                row.appendChild(cell);
-                highScoreTable.appendChild(row);
-            }
-
-            localStorage.setItem("highScoreList", JSON.stringify(allHighScores)); // Save all high scores for later
+        //     localStorage.setItem("highScoreList", JSON.stringify(allHighScores)); // Save all high scores for later
 
 
-        } else { // When there are no scores saved yet
-            var userScore = [textField.value, secondsLeft];
+        // } else { // When there are no scores saved yet
+
             var row = document.createElement("tr"); // Create row
             var cell = document.createElement("td"); //Create cell
-            cell.textContent = userScore; // Display each initial and score
+            cell.textContent = "1. " + userScore[0].initials + " " + userScore[0].score; // Display each initial and score
             row.appendChild(cell);
             highScoreTable.appendChild(row);
 
-            localStorage.setItem("highScoreList", JSON.stringify(allHighScores)); // Save user high score for later
+            localStorage.setItem("highScoreList", JSON.stringify(userScore)); // Save user high score for later
 
-        }
-        var goBack = document.createElement("button"); // Go back button
-        goBack.textContent = "Go Back";
+        // }
+        
+    })
+}
 
-        var clearHighScores = document.createElement("button");
-        clearHighScores.textContent = "Clear High Scores";
+function compare(player1, player2) { // Sort the high scores from highest to lowest
+    return player1.score - player2.score;
+}
 
-        clearHighScores.addEventListener("click", function () {
-            window.localStorage.clear();
-        });
-    });
+function clearStorage(){ // Clear local storage
+    localStorage.clear();
 }
 
 
 // Event listener for start button
 startButton.addEventListener("click", startGame);
+
+// Event listener for clear button
+clearHighScores.addEventListener("click", clearStorage);

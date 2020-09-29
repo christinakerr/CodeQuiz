@@ -43,23 +43,21 @@
             <h2 id="allDone">All Done!</h2>
 
             <p>Your final score is: <span id="finalScore"></span></p>
-            <form>
+
                 <label for="initials">Initials</label>
                 <input type="text" id="initials">
-                <input type="submit" value="Submit" class="submit">
-            </form> 
+                <button class="submit" id="submit">Submit</button>
+
             <hr />
-
-
-            <!-- <button>Go Back</button>
-                <button>Clear High Scores</button> -->
-            
-
         </div>
+        <!-- High Score Screen  -->
         <div class="hide" id="highScores">
-            <h2 id="scoretable">High Scores</h2>
-            <table>
+            <h2>High Scores</h2>
+            <table id="scoretable">
             </table>
+            <hr />
+            <button>Go Back</button>
+            <button id="clear-high-scores">Clear High Scores</button>
         </div>
     </div>
 

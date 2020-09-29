@@ -38,7 +38,7 @@ li {
 
 table {
     width: 250px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     background-color: #77A6F7;
     text-align: left;
 }
@@ -50,4 +50,8 @@ td {
 
 .hide {
     display: none;
+}
+
+.choices {
+    display: block;
 }
