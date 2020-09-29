@@ -48,7 +48,7 @@ var questions = [
     {
         question: "A very useful tool used during development and debugging for printing content to the debugger is:", //4
         answers: ["JavaScript", "terminal / bash", "for loops", "console.log"],
-        correctanswer: "console.log"
+        correctAnswer: "console.log"
     }
 ]
 
@@ -96,6 +96,9 @@ function questionCheck() {
 
     if (this.value !== questions[questionIndex].correctAnswer) {
         secondsLeft -= 10;
+        alert("Incorrect!");
+    } else {
+        alert("Correct!");
     }
     questionIndex++;
     if (questionIndex == questions.length) {
