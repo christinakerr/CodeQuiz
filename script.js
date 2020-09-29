@@ -12,6 +12,7 @@ var highScoreTable = document.getElementById("scoretable");
 var highScoresDiv = document.getElementById("highScores");
 var clearHighScores = document.getElementById("clear-high-scores");
 var viewHighScoresLink = document.getElementById("highscoreslink");
+var goBackButton = document.getElementById("go-back");
 
 // Count starts at 75 seconds
 var secondsLeft = 75;
@@ -59,6 +60,7 @@ var questions = [
 function startGame() {
     startDiv.setAttribute("class", "hide");
     questionsDiv.removeAttribute("class");
+    highScoresDiv.setAttribute("class", "hide");
     startTimer();
     changeQuestions();
 
@@ -199,3 +201,6 @@ clearHighScores.addEventListener("click", clearStorage);
 
 // Event listener for View High Scores link
 viewHighScoresLink.addEventListener("click", viewHighScores);
+
+// Event listener for Go Back button
+goBackButton.addEventListener("click", startGame);
