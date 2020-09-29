@@ -11,6 +11,7 @@ var highScoreTable = document.getElementById("scoretable");
 // var initialsInput = document.getElementById("initials");
 var highScoresDiv = document.getElementById("highScores");
 var clearHighScores = document.getElementById("clear-high-scores");
+var viewHighScoresLink = document.getElementById("highscoreslink");
 
 // Count starts at 75 seconds
 var secondsLeft = 75;
@@ -180,9 +181,21 @@ function clearStorage(){ // Clear local storage
     localStorage.clear();
 }
 
+// When following "View High Scores" link in upper lefthand corner of the page
+function viewHighScores() {
+    startDiv.setAttribute("class", "hide");
+    questionsDiv.setAttribute("class", "hide");
+    endDiv.setAttribute("class", "hide");
+    highScoresDiv.removeAttribute("class");
+    timerEl.setAttribute("class", "hide");
+}
+
 
 // Event listener for start button
 startButton.addEventListener("click", startGame);
 
 // Event listener for clear button
 clearHighScores.addEventListener("click", clearStorage);
+
+// Event listener for View High Scores link
+viewHighScoresLink.addEventListener("click", viewHighScores);
