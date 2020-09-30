@@ -14,12 +14,18 @@ var clearHighScores = document.getElementById("clear-high-scores");
 var viewHighScoresLink = document.getElementById("highscoreslink");
 var goBackButton = document.getElementById("go-back");
 
+var storedHighScores = JSON.parse(localStorage.getItem("highScoreList")) || []; // Retrieve old high scores
+
+
 // Count starts at 75 seconds
 var secondsLeft = 75;
 
 var questionIndex = 0;
 
-var highScoreList = [];
+var highScoreList = {
+    name: "",
+    score: 0
+};
 
 // Questions and answers stored in objects nested in an array
 
@@ -32,7 +38,7 @@ var questions = [
     },
     // Question 2
     {
-        question:"The condition in an if / else statement is enclosed within ____.", //1
+        question: "The condition in an if / else statement is enclosed within ____.", //1
         answers: ["quotes", "curly brackets", "parentheses", "square brackets"],
         correctAnswer: "parentheses",
 
@@ -86,7 +92,7 @@ function changeQuestions() {
 
     answersDiv.innerHTML = "";
 
-    currentQuestion.answers.forEach(function(answer) {
+    currentQuestion.answers.forEach(function (answer) {
         var answerButton = document.createElement("button");
         answerButton.setAttribute("class", "choice");
         answerButton.setAttribute("value", answer);
@@ -116,70 +122,51 @@ function questionCheck() {
 }
 
 function gameOver() { // When they go through all the questions or the timer runs out
-    
+
     var finalScore = secondsLeft;
-    
+
     questionsDiv.setAttribute("class", "hide");
     endDiv.removeAttribute("class");
     timerEl.setAttribute("class", "hide");
 
     scoreSpan.textContent = finalScore;
 
-    submitButton.addEventListener("click", function(){
+    submitButton.addEventListener("click", function () {
 
         userInitials = document.querySelector("#initials").value;
         console.log(userInitials);
 
 
-        var userScore = [{
+        var userScore = {
             initials: userInitials,
             score: finalScore
-        }];
+        };
+
+        storedHighScores.push(userScore);
+        storedHighScores.sort(compare);
+        localStorage.setItem("highScoreList", JSON.stringify(storedHighScores));
 
         endDiv.setAttribute("class", "hide");
         highScoresDiv.removeAttribute("class");
 
-        var storedHighScores = JSON.parse(localStorage.getItem("highScoreList")); // Retrieve old high scores
-        console.log(storedHighScores);
-        // if (storedHighScores !== null) { // When there's scores already saved
-
-        //     var allHighScores = storedHighScores.push(userScore);
-        //     console.log(userScore);
-        //     console.log(allHighScores);
-
-        //     allHighScores.sort(compare);
-
-        //     for (var i = 0; i < allHighScores.length; i++) {
-        //         var row = document.createElement("tr"); // Create row
-        //         var cell = document.createElement("td"); //Create cell
-        //         cell.textContent = (i + 1) + ". " + allHighScores[i].initials + allHighScores[i].score; // Display each initial and score
-        //         row.appendChild(cell);
-        //         highScoreTable.appendChild(row);
-        //     }
-
-        //     localStorage.setItem("highScoreList", JSON.stringify(allHighScores)); // Save all high scores for later
 
 
-        // } else { // When there are no scores saved yet
-
+        for (var i = 0; i < storedHighScores.length; i++) { // Build high score table
             var row = document.createElement("tr"); // Create row
             var cell = document.createElement("td"); //Create cell
-            cell.textContent = "1. " + userScore[0].initials + " " + userScore[0].score; // Display each initial and score
+            cell.textContent = (i + 1) + ". " + storedHighScores[i].initials + " " + storedHighScores[i].score; // Display each initial and score
             row.appendChild(cell);
             highScoreTable.appendChild(row);
+        }
 
-            localStorage.setItem("highScoreList", JSON.stringify(userScore)); // Save user high score for later
-
-        // }
-        
     })
 }
 
 function compare(player1, player2) { // Sort the high scores from highest to lowest
-    return player1.score - player2.score;
+    return player2.score - player1.score;
 }
 
-function clearStorage(){ // Clear local storage
+function clearStorage() { // Clear local storage
     localStorage.clear();
 }
 
