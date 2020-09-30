@@ -8,7 +8,6 @@ var answersDiv = document.getElementById("choices");
 var scoreSpan = document.getElementById("finalScore");
 var submitButton = document.getElementById("submit");
 var highScoreTable = document.getElementById("scoretable");
-// var initialsInput = document.getElementById("initials");
 var highScoresDiv = document.getElementById("highScores");
 var clearHighScores = document.getElementById("clear-high-scores");
 var viewHighScoresLink = document.getElementById("highscoreslink");
@@ -179,6 +178,10 @@ function viewHighScores() {
     timerEl.setAttribute("class", "hide");
 }
 
+function goBack() {
+    location.reload();
+}
+
 
 // Event listener for start button
 startButton.addEventListener("click", startGame);
@@ -190,4 +193,4 @@ clearHighScores.addEventListener("click", clearStorage);
 viewHighScoresLink.addEventListener("click", viewHighScores);
 
 // Event listener for Go Back button
-goBackButton.addEventListener("click", startGame);
+goBackButton.addEventListener("click", goBack);
